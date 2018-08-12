@@ -53,4 +53,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * データベースに保存される前に自動で処理される
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }
