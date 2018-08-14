@@ -4,13 +4,13 @@
         <v-toolbar-title>YoshijiFujiwara</v-toolbar-title>
         <v-spacer></v-spacer>
         <div class="hidden-sm-and-down">
-            <router-link to="/forum">
-                <v-btn flat>フォーラム</v-btn>
-            </router-link>
-            <v-btn flat>質問する</v-btn>
-            <v-btn flat >カテゴリー</v-btn>
-            <router-link to="/login">
-                <v-btn flat>ログイン</v-btn>
+
+            <router-link
+                v-for="item in items"
+                :key="item.title"
+                :to="item.to"
+                v-if="item.show">
+                <v-btn flat>{{ item.title }}</v-btn>
             </router-link>
         </div>
     </v-toolbar>
@@ -18,7 +18,22 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            items: [
+                {title: 'フォーラム', to:'/forum', show: true},
+                {title: '質問する', to:'/ask', show: User.loggedIn()},
+                {title: 'カテゴリー', to:'/category', show: User.loggedIn()},
+                {title: 'ログイン', to:'/login', show: !User.loggedIn()},
+                {title: 'ログアウト', to:'/logout', show: User.loggedIn()},
+            ]
+        }
+    },
+    created() {
+        EventBus.$on('logout', () => {
+            User.logout();
+        })
+    }
 }
 </script>
 
