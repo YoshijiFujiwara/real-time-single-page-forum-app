@@ -7,11 +7,17 @@
 
 require('./bootstrap');
 
+// vuetify
 window.Vue = require('vue');
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-
 Vue.use(Vuetify);
+
+// マークダウンエディター
+import VueSimplemde from 'vue-simplemde';
+Vue.use(VueSimplemde);
+import md from 'marked'; // node_modulesディレクトリを参照しよう
+window.md = md;
 
 import User from './Helpers/User';
 window.User = User;

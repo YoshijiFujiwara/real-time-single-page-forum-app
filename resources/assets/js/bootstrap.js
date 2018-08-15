@@ -23,6 +23,8 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+const JwtToken = `Bearer ${localStorage.getItem('token')}`; // axiosリクエストで常に、認証用のJwtトークンを渡すようにするため
+window.axios.defaults.headers.common['Authorization'] = JwtToken; // 使える!!!
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
