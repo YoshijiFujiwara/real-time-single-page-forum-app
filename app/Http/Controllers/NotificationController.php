@@ -7,6 +7,17 @@ use App\Http\Resources\NotificationResource;
 
 class NotificationController extends Controller
 {
+    /**
+     * Create a new AuthController instance.
+     * これで'token is expired が返るようになる'
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('JWT');
+    }
+
     public function index()
     {
         return [

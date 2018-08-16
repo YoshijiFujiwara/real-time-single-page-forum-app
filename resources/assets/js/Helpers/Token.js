@@ -15,7 +15,21 @@ class Token {
     }
 
     decode(payload) {
-        return JSON.parse(atob(payload));
+        if (this.isBase64(payload)) {
+            return JSON.parse(atob(payload));    
+        }
+        return false;
+    }
+
+    isBase64 (str) { // localstorageにtokenを手動で打ち込まれたときの対策
+        try {
+            // return btoa(atob(str)) == str
+            // 上記だと、文字列の最後に=が含まれるため
+            return btoa(atob(str)).replace(/=/g, "") == str
+        }
+        catch (err) {
+            return false;
+        }
     }
 }
 

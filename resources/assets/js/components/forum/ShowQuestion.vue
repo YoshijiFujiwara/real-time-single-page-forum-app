@@ -9,7 +9,7 @@
                <span class="grey--text">{{data.user}}さんが{{data.created_at}}に投稿</span>
             </div>
             <v-spacer></v-spacer>
-            <v-btn class="teal" dark>{{data.reply_count}}返信</v-btn>
+            <v-btn class="teal" dark>{{replyCount}}返信</v-btn>
          </v-card-title>   
 
          <v-card-text v-html="body"></v-card-text>
@@ -31,13 +31,33 @@ export default {
   props: ["data"],
   data() {
     return {
-      own: User.own(this.data.user_id)
+      own: User.own(this.data.user_id),
+      replyCount: this.data.reply_count
     };
   },
   computed: {
     body() {
       return md.parse(this.data.body);
     }
+  },
+  created() {
+      EventBus.$on('newReply', () => {
+        this.replyCount++
+      });
+
+      Echo.private('App.User.' + User.id())
+        .notification((notification) => {
+            this.replyCount++
+        });
+
+      EventBus.$on('deleteReply', () => {
+        this.replyCount--
+      });
+
+      Echo.channel('deleteReplyChannel')
+      .listen('DeleteReplyEvent', (e) => {
+          this.replyCount--
+      });
   },
   methods: {
     destroy() {
