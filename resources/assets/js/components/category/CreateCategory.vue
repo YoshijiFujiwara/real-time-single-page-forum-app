@@ -1,5 +1,9 @@
 <template>
   <v-container>
+      <v-alert v-if="errors" type="error" :value="true">
+          カテゴリー名がありません
+      </v-alert>
+
     <v-form @submit.prevent="submit">
       <v-text-field
       label="カテゴリー名"
@@ -7,8 +11,8 @@
       required
       ></v-text-field>
 
-      <v-btn type="submit" color="pink" v-if="editSlug">更新</v-btn>
-      <v-btn type="submit" color="teal" v-else>作成</v-btn>
+      <v-btn type="submit" :disabled="disable" color="pink" v-if="editSlug">更新</v-btn>
+      <v-btn type="submit" :disabled="disable" color="teal" v-else>作成</v-btn>
     </v-form>
 
     <v-card>
@@ -53,7 +57,8 @@ export default {
         name: null
       },
       categories: {},
-      editSlug: null
+      editSlug: null,
+      errors: null
     };
   },
   created() {
@@ -70,7 +75,8 @@ export default {
       axios.post("/api/category", this.form).then(res => {
         this.categories.unshift(res.data);
         this.form.name = null;
-      });
+      })
+      .catch(error => this.errors = error.response.data.errors)
     },
     update() {
       axios.patch(`/api/category/${this.editSlug}`, this.form).then(res => {
@@ -88,7 +94,12 @@ export default {
         .delete(`/api/category/${slug}`)
         .then(res => this.categories.splice(index, 1));
     }
-  }
+  },
+  computed: {
+       disable() {
+            return !this.form.name
+       }
+   }
 };
 </script>
 

@@ -54,7 +54,7 @@ class User {
     }
 
     admin() {
-      return this.id == 15; // aaa@gmail.com
+      return this.id() == 15; // aaa@gmail.com
     }
 }
 
