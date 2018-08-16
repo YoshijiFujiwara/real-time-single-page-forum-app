@@ -20,6 +20,14 @@ export default {
             return this.liked ? 'red' : 'red lighten-4';
         }
     },
+    created() { // https://laravel.com/docs/5.6/broadcasting#broadcasting-events
+        Echo.channel('likeChannel').listen('LikeEvent', (e) => {
+            console.log(e);
+            if (this.content.id == e.id) {
+                e.type == 'likeIt' ? this.count ++ : this.count --;
+            }
+        });
+    },
     methods: {
         likeIt() {
             if (User.loggedIn()) {
@@ -32,7 +40,7 @@ export default {
             .then(res => this.count++);
         },
         decrement() {
-            axios.post(`/api/like/${this.content.id}`)
+            axios.delete(`/api/like/${this.content.id}`)
             .then(res => this.count--);
         }
     }
