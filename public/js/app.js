@@ -91661,8 +91661,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
    },
    computed: {
       disable: function disable() {
-         // return !(this.form.title && this.form.body && this.form.category_id)
-         return false;
+         return !(this.form.title && this.form.body && this.form.category_id);
       }
    }
 });

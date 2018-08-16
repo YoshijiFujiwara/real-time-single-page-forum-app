@@ -58,8 +58,8 @@ export default {
    },
    computed: {
        disable() {
-            // return !(this.form.title && this.form.body && this.form.category_id)
-            return false;
+            return !(this.form.title && this.form.body && this.form.category_id)
+            
        }
    }
 }
