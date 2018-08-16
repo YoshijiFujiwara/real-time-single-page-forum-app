@@ -52,6 +52,10 @@ class User {
     own(id) {
         return this.id() == id;
     }
+
+    admin() {
+      return this.id == 15; // aaa@gmail.com
+    }
 }
 
 export default User = new User();

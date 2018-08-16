@@ -9,7 +9,7 @@
                <span class="grey--text">{{data.user}}さんが{{data.created_at}}に投稿</span>
             </div>
             <v-spacer></v-spacer>
-            <v-btn class="teal">5返信</v-btn>
+            <v-btn class="teal" dark>{{data.reply_count}}返信</v-btn>
          </v-card-title>   
 
          <v-card-text v-html="body"></v-card-text>
@@ -28,30 +28,30 @@
 
 <script>
 export default {
-   props:['data'],
-   data() {
-      return {
-         own: User.own(this.data.user_id)
-      }
-   },
-   computed:{
-      body() {
-         return md.parse(this.data.body);
-      }
-   },
-   methods: {
-      destroy() {
-         axios.delete(`/api/question/${this.data.slug}`)
-         .then(res => this.$router.push('/forum'))
-         .catch(error => console.log(error.response.data))
-      },
-      edit() {
-         EventBus.$emit('startEditing')
-      }
-   }
-}
+  props: ["data"],
+  data() {
+    return {
+      own: User.own(this.data.user_id)
+    };
+  },
+  computed: {
+    body() {
+      return md.parse(this.data.body);
+    }
+  },
+  methods: {
+    destroy() {
+      axios
+        .delete(`/api/question/${this.data.slug}`)
+        .then(res => this.$router.push("/forum"))
+        .catch(error => console.log(error.response.data));
+    },
+    edit() {
+      EventBus.$emit("startEditing");
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>

@@ -18,25 +18,24 @@
 
 <script>
 export default {
-    data() {
-        return {
-            items: [
-                {title: 'フォーラム', to:'/forum', show: true},
-                {title: '質問する', to:'/ask', show: User.loggedIn()},
-                {title: 'カテゴリー', to:'/category', show: User.loggedIn()},
-                {title: 'ログイン', to:'/login', show: !User.loggedIn()},
-                {title: 'ログアウト', to:'/logout', show: User.loggedIn()},
-            ]
-        }
-    },
-    created() {
-        EventBus.$on('logout', () => {
-            User.logout();
-        })
-    }
-}
+  data() {
+    return {
+      items: [
+        { title: "フォーラム", to: "/forum", show: true },
+        { title: "質問する", to: "/ask", show: User.loggedIn() },
+        { title: "カテゴリー", to: "/category", show: User.admin() },
+        { title: "ログイン", to: "/login", show: !User.loggedIn() },
+        { title: "ログアウト", to: "/logout", show: User.loggedIn() }
+      ]
+    };
+  },
+  created() {
+    EventBus.$on("logout", () => {
+      User.logout();
+    });
+  }
+};
 </script>
 
 <style>
-
 </style>
